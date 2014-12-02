@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
+#include <exception>
 
 using namespace std;
 
@@ -31,11 +32,11 @@ int main(int argc, char** argv) {
     ofstream outFile;
     if (strcmp(conversion,"-b") == 0) {
       inFile.open(inputFileName);
-      outFile.open(outputFileName,ofstream::binary);
+      outFile.open(outputFileName,std::ios::binary);
       txtToBin(inFile,outFile);
     }
     else if(strcmp(conversion,"-t") == 0) {
-      inFile.open(inputFileName,ifstream::binary);
+      inFile.open(inputFileName,std::ios::binary);
       outFile.open(outputFileName);
       binToTxt(inFile,outFile);
     }
@@ -71,11 +72,31 @@ void prompt() {
 //A function to convert input txt file to an output binary file
 //Constraints: Both file must exist beforehand
 void txtToBin(ifstream& inFile, ofstream& outFile) {
-  cout << "Under Construction\n";
+  //cout << "Under Construction\n";
+  try {
+    char c;
+    inFile >> std::noskipws;
+    while (inFile >> c) {
+      outFile.write(reinterpret_cast<char*>(&c), sizeof(c));
+    }
+  }
+  catch (exception& e) {
+    cerr << e.what() << endl;
+  }
 }
 
 //A function to convert input binary file to an output txt file
 //Constraints: Both file must exist beforehand
 void binToTxt(ifstream& inFile, ofstream& outFile) {
-  cout << "Under Construction\n";
+  //cout << "Under Construction\n";
+  try {
+    char c;
+    inFile >> std::noskipws;
+    while (inFile >> c) {
+      outFile.write(reinterpret_cast<char*>(&c), sizeof(c));
+    }
+  }
+  catch (exception& e) {
+    cerr << e.what() << endl;
+  }
 }
